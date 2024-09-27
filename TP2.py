@@ -50,15 +50,18 @@ for new_key in keys2:
 ########################################################################################################## 
 # PARTIE 3 : Modification de la cote de rangement d'une sélection de livres
 ########################################################################################################## 
-
 #1ere etape : acceder aux livres de william shaksperare
 #2eme etape modifier le key
 
-
-
-
-
-
+for key in list(bibliotheque.keys()):
+    list_of_information = []
+    list_of_information.extend(bibliotheque[key].split(","))
+   
+    if "William Shakespeare" in list_of_information[1]:
+        bibliotheque[key.replace("S" , "WS")]= bibliotheque[key]
+        bibliotheque.pop(key, None)
+        
+print(f' \n Bibliotheque avec modifications de cote : {bibliotheque} \n')
 
 ########################################################################################################## 
 # PARTIE 4 : Emprunts et retours de livres
