@@ -18,8 +18,6 @@ bibliotheque ={}
 for row in collection_initiale:
     bibliotheque[row['cote_rangement']] = {"titre":row['titre'], "auteur" : row['auteur'], "date_publication" : row['date_publication']}
 
-    #bibliotheque.update({row['cote_rangement']: row['titre'] + " , " + row['auteur']+ " , " + row['date_publication']})
-
 print(f' \n Bibliotheque initiale: {bibliotheque} \n')
 
 
@@ -42,7 +40,7 @@ for new_row in nouvelle_collection:
     else:
         bibliotheque[cote] = {"titre": titre2 , "auteur" : auteur2 , "date_publication" : date_publication2}
         print(f'Le livre {cote} ---- {titre2} par {auteur2} ---- a été ajouté avec succès')
-    
+
 ########################################################################################################## 
 # PARTIE 3 : Modification de la cote de rangement d'une sélection de livres
 ########################################################################################################## 
@@ -63,24 +61,46 @@ print(f' \n Bibliotheque avec modifications de cote : {bibliotheque} \n')
 ########################################################################################################## 
 
 csvfile3 = open('emprunts.csv', newline='')
-liste_emprunt = csv.DictReader(csvfile3)
+liste = csv.DictReader(csvfile3)
+liste_emprunt = {}
+for column in liste:
+    liste_emprunt[column['cote_rangement']] = column['date_emprunt']
 
-emprunts= {}
-
-    cote_rangement = row1['cote_rangement']
-    date_emprunt = row1['date_emprunt']
-
-    for key_emprunt in bibliotheque.keys():
-        if key_emprunt in cote_rangement:
-            bibliotheque[key_emprunt]['emprunts'] = "emprunté"
-            bibliotheque[key_emprunt]['date_emprunt'] = date_emprunt
-        else:
-            bibliotheque[key_emprunt]['emprunts'] = "disponible"
-
+for cote in bibliotheque.keys():
+    if cote in liste_emprunt.keys():
+        bibliotheque[cote]['emprunts'] = "emprunté"
+        bibliotheque[cote]['date_emprunt'] = liste_emprunt[cote]
+    else:
+        bibliotheque[cote]['emprunts'] = "Disponible"
+           
 print(f' \n Bibliotheque avec ajout des emprunts : {bibliotheque} \n')
+
+
 
 ########################################################################################################## 
 # PARTIE 5 : Livres en retard 
 ########################################################################################################## 
 
-# TODO : Écrire votre code ici
+import datetime
+from datetime import datetime
+
+now = datetime.now()
+
+livres_en_retard = []
+
+for key, date in liste_emprunt.items():
+
+    date_emprunt = datetime.strptime(date, '%Y-%m-%d')
+    number_of_days = (now - date_emprunt).days
+  
+    if number_of_days > 365:
+        bibliotheque[key]["livres_perdus"]= "livre est perdu"
+    
+    elif 30 <number_of_days < 365 :
+        jour_de_retard = number_of_days - 30
+        frais = min(jour_de_retard*2, 100)
+        bibliotheque[key]["frais_retard"]= frais
+        livres_en_retard.append(f' Livre: {bibliotheque[key]["titre"]} , frais de retard: {bibliotheque[key]["frais_retard"]} $')
+
+print("La liste des livres en retard est:", livres_en_retard)
+print(f' \n Bibliotheque avec ajout des retards et frais : {bibliotheque} \n')
