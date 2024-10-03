@@ -15,6 +15,7 @@ import csv
 csvfile= open('collection_bibliotheque.csv', newline='')
 collection_initiale = csv.DictReader(csvfile)
 bibliotheque ={}
+
 for row in collection_initiale:
 	bibliotheque[row['cote_rangement']] = {"titre":row['titre'], "auteur" : row['auteur'], "date_publication" : row['date_publication']}
 
@@ -37,9 +38,11 @@ for new_row in nouvelle_collection:
 
 	if cote in bibliotheque.keys():
 		print(f'Le livre {cote} ---- {titre2} par {auteur2} ---- est déjà présent dans la bibliothèque')
+
 	else:
 		bibliotheque[cote] = {"titre": titre2 , "auteur" : auteur2 , "date_publication" : date_publication2}
 		print(f'Le livre {cote} ---- {titre2} par {auteur2} ---- a été ajouté avec succès')
+
 
 ########################################################################################################## 
 # PARTIE 3 : Modification de la cote de rangement d'une sélection de livres
@@ -52,7 +55,6 @@ for key, value in copie_bibliotheque.items():
 		new_key = key.replace("S" , "WS")
 		bibliotheque[new_key] = bibliotheque.pop(key)
 		
-
 print(f' \n Bibliotheque avec modifications de cote : {bibliotheque} \n')
 
 
@@ -66,6 +68,8 @@ liste_emprunt = {}
 for column in liste:
 	liste_emprunt[column['cote_rangement']] = column['date_emprunt']
 
+print(len(liste_emprunt))
+
 for cote in bibliotheque.keys():
 	if cote in liste_emprunt.keys():
 		bibliotheque[cote]['emprunts'] = "emprunté"
@@ -74,7 +78,6 @@ for cote in bibliotheque.keys():
 		bibliotheque[cote]['emprunts'] = "Disponible"
 		   
 print(f' \n Bibliotheque avec ajout des emprunts : {bibliotheque} \n')
-
 
 
 ########################################################################################################## 
@@ -96,8 +99,9 @@ for key, date in liste_emprunt.items():
 		bibliotheque[key]["livres_perdus"]= "livre est perdu"
 	
 	elif 30 < number_of_days < 365 :
-	
 		jours_de_retard = number_of_days - 30
+
+		#min compare le frais calculé à la valeur 100 et choisit la plus petite valeur càd : frais max = 100
 		frais = min(jours_de_retard*2, 100)
 
 		bibliotheque[key]["frais_retard"]= frais

@@ -75,7 +75,7 @@ Indice : Pour cet exercice, vous pouvez utiliser le module [datetime](https://do
 - Ce fichier zip devra contenir uniquement votre script TP2.py. Assurez-vous d'avoir écrit votre groupe de laboratoire, numéro d'équipe, vos noms et vos matricules dans l'espace indiqué à l'intérieur du script TP2.py. 
 - Avant de remettre votre travail, assurez-vous que votre script fonctionne sans erreurs, et affiche correctement tous les `print`. 
 - Pour soumettre votre travail, ajoutez votre fichier zip dans la 'Boîte de remise TP2' sur Moodle. 
-
+Identification des livres perdus      |       3  
 ## Barème de correction
 |     Partie    |                 Tâche                 |     Points    |
 | ------------- | ------------------------------------- | ------------- |
@@ -85,7 +85,7 @@ Indice : Pour cet exercice, vous pouvez utiliser le module [datetime](https://do
 |       4       | Gestion de la clé `emprunts`          |       3       |
 |       4       | Gestion de la clé `date_emprunts`     |       2       |
 |       5       | Liste des livres en retard            |       4       |
-|       5       | Identification des livres perdus      |       3       |
+|       5       |      |
 |               |                                Total  |       20      |
 
 
