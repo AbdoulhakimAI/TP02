@@ -100,45 +100,40 @@ csvfile3.close()
 import datetime
 from datetime import datetime
 
-now = datetime.now() #date actuelle
+now = datetime.today().date() #date actuelle
 livres_en_retard = []
 livres_perdus = []
 
-for key, date in liste_emprunt.items():
-	for key1 in bibliotheque.keys():
-		if key1 == key:
-  
-			date_emprunt = datetime.strptime(date, '%Y-%m-%d') #convertir en date
-			number_of_days = (now - date_emprunt).days  #retard en jours
+for key in bibliotheque.keys():
+	if key in liste_emprunt.keys():
 
-			if number_of_days >= 365: #trouver les livres perdus
-				bibliotheque[key1]["livres_perdus"]= "livre est perdu"
-				bibliotheque[key1]["frais_retard"]= "100 $ "
-				livres_perdus.append(bibliotheque[key1]["titre"])
+		date_emprunt = datetime.strptime(liste_emprunt[key], '%Y-%m-%d').date() #convertir en date
+		number_of_days = (now - date_emprunt).days  #retard en jours
 
-			else: 
-				bibliotheque[key1]["livres_perdus"]= " ce livre n'est pas perdu"
-				
+		if number_of_days >= 365: #trouver les livres perdus
+			bibliotheque[key]["livres_perdus"]= "livre est perdu"
+			bibliotheque[key]["frais_retard"]= "100 $ "
+			livres_perdus.append(bibliotheque[key]["titre"])
+		else: 
+			bibliotheque[key]["livres_perdus"]= " ce livre n'est pas perdu"
+			
 
-			if number_of_days >30: 
-				jours_de_retard = number_of_days - 30 #frais appliquables sur les jours après le delai de retour
+		if  number_of_days >30: 
+			jours_de_retard = number_of_days - 30 #frais appliquables sur les jours après le delai de retour
 
 			#min compare le frais calculé à la valeur 100 et choisit la plus petite valeur càd : frais max = 100
-				frais = min(jours_de_retard*2, 100)
-				bibliotheque[key1]["frais_retard"]= str(frais) + " $" 
+			frais = min(jours_de_retard*2, 100)
+			bibliotheque[key]["frais_retard"]= str(frais) + " $" 
 
-				#création d'une liste de livres en retard
-				livres_en_retard.append(f' Livre: {bibliotheque[key1]["titre"]} , frais de retard: {bibliotheque[key1]["frais_retard"]} $')
-
-			else: 
-				bibliotheque[key1]["frais_retard"]= "0 $"
-
-			
+			#création d'une liste de livres en retard
+			livres_en_retard.append(f' Livre: {bibliotheque[key]["titre"]} , frais de retard: {bibliotheque[key]["frais_retard"]} ')
 		else: 
-			bibliotheque[key1]["livres_perdus"]= "livre n'est pas perdu"
-			bibliotheque[key1]["frais_retard"]= "0 $"
+			bibliotheque[key]["frais_retard"]= "0 $"	
+	else:
+		bibliotheque[key]["livres_perdus"]= "ce livre n'est pas perdu"
+		bibliotheque[key]["frais_retard"]= "0 $"
 
 print("la liste des livres perdus est:",  (livres_perdus))
-print("La liste des livres en retard est:", (livres_en_retard))
+print("La liste des livres en retard est:", (len(livres_en_retard)))
 print(f' \n Bibliotheque avec ajout des retards et frais : {bibliotheque} \n')
 
